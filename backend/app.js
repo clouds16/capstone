@@ -6,6 +6,8 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+let signupRouter = require('./routes/signup');
+let loginRouter = require('./routes/login')
 
 
 // DATABASE
@@ -24,7 +26,32 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/signup', signupRouter)
+app.use(loginRouter)
+
+const User = require('./models/users')
+
+app.post('/signup', async function(req, res ) {
+  const user = new User(req.body)
+  console.log("are we even here?")
+  try {
+    user.save()
+    res.status(201).send(user);
+  } catch (e) {
+    res.status(400).send();
+  }
+});
+
+
+app.post('/login', async (req, res) => {
+  try {
+    const user = await User.findByCredentials(req.body.email) 
+    console.log(user)  
+  } catch (e) {
+    res.status(400).send(e)
+    }
+  } );
+  
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -40,6 +67,8 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+  
 });
+
 
 module.exports = app;

@@ -13,10 +13,14 @@ const User = mongoose.model("User", {
 		required: true,
 		trim: true,
 	},
-    age: {
-        required: true,
-        type: Number,
-    },
+    // age: {
+    //     required: false,
+    //     type: Number,
+    // },
+	// weight : {
+	// 	required: false,
+	// 	type: Number
+	// },
 
 	email: {
 		type: String,
@@ -29,6 +33,7 @@ const User = mongoose.model("User", {
 			}
 		},
 	},
+	
 	password: {
 		type: String,
 		required: true,
