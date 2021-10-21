@@ -1,24 +1,35 @@
 import React, { useState } from 'react';
 import "../index.css" ;
 import Axios from "axios"
+import { useHistory } from 'react-router-dom';
+
 function Signup() {
 
-    const apiUrl = "/signup"
-
+    const history = useHistory();
     let [loginData , setLoginData] = useState({
         fname : "",
         lname : "",
         email : "",
-        password : ""
+        password : "",
+        _id : ""
     })
     
-    function submitForm(e) {
-
-        Axios.post(apiUrl, loginData ).then( (response) => {
-            console.log(response)
+    function submitForm() {
+        console.log(loginData)
+        Axios.post('/signup', loginData ).then( (response) => {
+            console.log(response.data)
+            setLoginData( loginData._id = response.data._id)
+            console.log(loginData)
+  
+            
+            // try {
+            //     const url = "/profile/" + loginData._id + "/program"
+            //     history.push(url)
+            // } catch (e) {
+            //     console.log(e)
+            // }
+        
         } ).catch( e => console.log(e))
-
-        e.preventDefault()
     }
 
     const handleChange = evt => {
@@ -29,14 +40,11 @@ function Signup() {
           ...loginData,
           [name]: value
         })
-
-        console.log(loginData)
       }
     
 
     return (
         <div className="flex bg-white w-full  h-screen ">
-
             <div className="left-container flex-1 p-10 m-10 flex ">
                 <div className="flex-row p-5 text-black self-center  ">
                     <h1 className="flex-1 text float-left text-5xl">Let the Motivation begin!</h1>
