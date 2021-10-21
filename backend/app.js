@@ -1,41 +1,33 @@
+// Express Setup
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var cors = require("cors")  
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-let signupRouter = require('./routes/signup');
-let loginRouter = require('./routes/login')
+var app = express();
+
 
 
 // DATABASE
-require("./database/mongoconnect.js")
+require("./database/mongoconnect.js");
+const User = require('./models/users');
+const Stats = require('./models/stats');
+const Workouts = require('./models/workouts')
 
-var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
+// Routes 
 app.use('/', indexRouter);
-app.use('/signup', signupRouter)
-app.use(loginRouter)
 
-const User = require('./models/users')
 
+// Routes 
 app.post('/signup', async function(req, res ) {
-  const user = new User(req.body)
-  console.log("are we even here?")
+  
+  console.log(req.body)
+
+  const user = new User(req.body);
   try {
-    user.save()
+    await user.save()
     res.status(201).send(user);
   } catch (e) {
     res.status(400).send();
@@ -43,15 +35,32 @@ app.post('/signup', async function(req, res ) {
 });
 
 
-app.post('/login', async (req, res) => {
-  try {
-    const user = await User.findByCredentials(req.body.email) 
-    console.log(user)  
-  } catch (e) {
-    res.status(400).send(e)
-    }
-  } );
-  
+app.post("/login" , (req, res) => {
+  console.log("login active", req.body)
+
+  let user = User.find({"email" : req.body.email } , (err, user) => {
+    res.send(user)
+  })
+})
+
+app.get("/users" , (req, res) => {
+  console.log("request working")
+  User.find({}, function (err, users) {
+    res.send(users);
+});
+});
+
+
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -69,6 +78,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
   
 });
-
 
 module.exports = app;
