@@ -15,7 +15,7 @@ const Homepage = () => {
 
                     </div>
                     <div className="button-area flex-1 overflow-hidden m-20 float-left">
-                        <button className="bg-white p-3 m-3  rounded-lg border-black border-2 hover:bg-black hover:text-white "> Discover More</button>
+                        <button className="bg-white p-3 m-3 rounded-lg border-black border-2 hover:bg-black hover:text-white "> Discover More</button>
                         <button className="bg-white p-3 m-3 rounded-xl border-black border-2 hover:bg-black hover:text-white"> Log In </button>
                     </div>
                 </div>
