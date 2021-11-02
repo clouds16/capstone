@@ -11,25 +11,19 @@ function Signup() {
         lname : "",
         email : "",
         password : "",
-        _id : ""
     })
     
-    function submitForm() {
-        console.log(loginData)
+    function submitForm(e) {
         Axios.post('/signup', loginData ).then( (response) => {
-            console.log(response.data)
-            setLoginData( loginData._id = response.data._id)
+            setLoginData( loginData._id = response.data._id);
             console.log(loginData)
-  
-            
-            // try {
-            //     const url = "/profile/" + loginData._id + "/program"
-            //     history.push(url)
-            // } catch (e) {
-            //     console.log(e)
-            // }
+            let url = "/profile/" + loginData._id + "/program";
+            history.push(url);
+        } ).catch((e) =>{
+            alert("Could Create New Account")
+        })
+        e.preventDefault()
         
-        } ).catch( e => console.log(e))
     }
 
     const handleChange = evt => {
@@ -40,6 +34,7 @@ function Signup() {
           ...loginData,
           [name]: value
         })
+        console.log(loginData)
       }
     
 
@@ -60,17 +55,17 @@ function Signup() {
 
                         <div className="item flex flex-col">
                             <label htmlFor="" className="flex-1 text-left  ">First Name</label>
-                            <input onChange={handleChange}  name="fname" value={loginData.fname} placeholder="John" type="text" className="border-box p-2 m-2 flex-1 border-black border-2 m-2 rounded-md hover:border-green-500" />
+                            <input onChange={handleChange}  name="fname" value={loginData.fname} placeholder="John" type="text" className="border-box p-2 flex-1 border-black border-2 m-2 rounded-md hover:border-green-500" />
                         </div>
                         
                         <div className="item flex flex-col">
                             <label htmlFor="" className="flex-1 text-left  ">Last Name</label>
-                            <input onChange={handleChange}  name="lname"  value={loginData.lname}  placeholder="Smith" type="text" className="border-box p-2 m-2 flex-1 border-black border-2 m-2 rounded-md hover:border-green-500" />
+                            <input onChange={handleChange}  name="lname"  value={loginData.lname}  placeholder="Smith" type="text" className="border-box p-2  flex-1 border-black border-2 m-2 rounded-md hover:border-green-500" />
                         </div>
 
                         <div className="item flex flex-col">
                             <label htmlFor="" className="flex-1 text-left  ">Email</label>
-                            <input onChange={handleChange}  name="email"  value={loginData.email}  placeholder="Email" type="email" className="border-box p-2 m-2 flex-1 border-black border-2 m-2 rounded-md hover:border-green-500" />
+                            <input onChange={handleChange}  name="email"  value={loginData.email}  placeholder="Email" type="email" className="border-box p-2 flex-1 border-black border-2 m-2 rounded-md hover:border-green-500" />
                         </div>
 
                         <div className="item flex flex-col">
@@ -78,7 +73,7 @@ function Signup() {
                             <input onChange={handleChange}  name="password" value={loginData.password} placeholder="Password..." type="password" className="border-box p-2 m-2 flex-1 border-black border-2 m-2 rounded-md hover:border-green-500" />
                         </div>
                         
-                        <input type="submit" onSubmit={submitForm} className="border-box p-2 m-2 bg-green-300 border-black border-2 m-2 rounded-md hover:border-green-500" />
+                        <input type="submit" onClick={submitForm} className="border-box p-2 m-2 bg-green-300 border-black border-2 rounded-md hover:border-green-500" />
                     </form>
                 </div>
             </div>

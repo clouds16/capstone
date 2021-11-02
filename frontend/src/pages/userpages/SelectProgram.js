@@ -44,12 +44,12 @@ const SelectProgram = (props) => {
                     <h2 className="p-3  text-center  text-8xl text-white absolute"> Weight Loss</h2>
                 </button>
 
-                <button onClick={buttonPressed} name="toning" className="flex-1 m-14 bg-red-400 flex hover:m-2 hover:bg-blue-300  rounded-2xl overflow-hidden">
+                <button onClick={buttonPressed} name="toning" className="relative flex-1 m-14 bg-red-400 flex hover:m-2 hover:bg-blue-300  rounded-2xl overflow-hidden">
                     <img src={Cutting} alt="" className="block object-cover   transition-shadow" />
                     <h2 className="p-4  text-center  text-8xl text-white absolute"> Toning</h2>
                 </button>
 
-                <button onClick={buttonPressed} name="bulking" className="flex-1 m-14  bg-red-400 flex hover:m-2 hover:bg-blue-300 rounded-2xl  overflow-hidden ">
+                <button onClick={buttonPressed} name="bulking" className="relative flex-1 m-14  bg-red-400 flex hover:m-2 hover:bg-blue-300 rounded-2xl  overflow-hidden ">
                     <img src={Bulking} alt="" className="block object-cover" />
                     <h2 className="p-4  text-center  text-8xl text-white absolute"> Bulking</h2>
                 </button>
