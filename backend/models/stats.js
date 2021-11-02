@@ -6,18 +6,18 @@ const Stats = mongoose.model('Stats', new mongoose.Schema({
         required: true,
         
     },
-    // completed: {
-    //     type: Boolean,
-    //     default: false
-    // },
+    units : {
+        required :true, 
+        type : String
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
-    }
-    }, {
-    timestamps: true
-}))
+    },
+
+    datecreated : Date
+}));
 
 
 module.exports = Stats
