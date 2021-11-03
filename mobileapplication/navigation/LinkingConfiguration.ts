@@ -17,12 +17,38 @@ const linking: LinkingOptions<RootStackParamList> = {
         screens: {
           TabOne: {
             screens: {
+              LoginScreen: 'login',
+            },
+          },
+          TabTwo: {
+            screens: {
+              SignupScreen: 'signup',
+            },
+          },
+        },
+      },
+      Profile: {
+        screens: {
+          Profile: {
+            screens: {
               TabOneScreen: 'one',
             },
           },
           TabTwo: {
             screens: {
               TabTwoScreen: 'two',
+            },
+          },
+
+          TabThree: {
+            screens: {
+              TabThreeScreen: 'three',
+            },
+          },
+          
+          TabFour: {
+            screens: {
+              TabFourScreen: 'four',
             },
           },
         },
