@@ -69,16 +69,18 @@ function BottomTabNavigator() {
         name="TabOne"
         component={TabOneScreen}
         options={{
-          title: 'Sign Up',
-          tabBarIcon: ({ color }) => <TabBarIcon name="circle" color={color} />,
+          title: 'Profile',
+          tabBarActiveTintColor: 'tomato',
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />
       <BottomTab.Screen
         name="TabTwo"
         component={TabTwoScreen}
         options={{
-          title: 'Sign Up',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Videos',
+          tabBarActiveTintColor: 'tomato',
+          tabBarIcon: ({ color }) => <TabBarIcon name="image" color={color} />,
         }}
       />
 
@@ -86,8 +88,9 @@ function BottomTabNavigator() {
         name="TabThree"
         component={TabThreeScreen}
         options={{
-          title: 'Stuff 3',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Add Metrics',
+          tabBarActiveTintColor: 'tomato',
+          tabBarIcon: ({ color }) => <TabBarIcon  name="plus" color={color} />,
         }}
       />
 
@@ -95,8 +98,9 @@ function BottomTabNavigator() {
         name="TabFour"
         component={TabFourScreen}
         options={{
-          title: 'Sign Up',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Charts',
+          tabBarActiveTintColor: 'tomato',
+          tabBarIcon: ({ color }) => <TabBarIcon name="table" color={color} />,
         }}
       />
 
@@ -105,7 +109,8 @@ function BottomTabNavigator() {
         component={TabFiveScreen}
         options={{
           title: 'Settings',
-          tabBarIcon: ({ color }) => <TabBarIcon name="history" color={color} />,
+          tabBarActiveTintColor: 'tomato',
+          tabBarIcon: ({ color }) => <TabBarIcon name="gear" color={color} />,
         }}
       />
     </BottomTab.Navigator>
