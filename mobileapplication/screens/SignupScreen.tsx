@@ -6,7 +6,7 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
-export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+export default function TabOneScreen({ navigation }: RootTabScreenProps<'Signup'>) {
 
   let [userinfo, setUserInfo] = useState({ 
     email: "",
@@ -21,7 +21,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   
 
   function buttonPress() {
-    return "Some Text"
+    navigation.push('Profile')
   }
 
   return (

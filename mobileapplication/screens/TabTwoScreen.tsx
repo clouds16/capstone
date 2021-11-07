@@ -7,7 +7,7 @@ import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import YoutubePlayer from 'react-native-youtube-iframe'
 
-export default function TabOneScreen({ navigation }) {
+export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
 
 
   return (
