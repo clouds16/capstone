@@ -1,24 +1,35 @@
 import * as React  from 'react';
-import {useState} from 'react'
+import {useState , useEffect, useContext} from 'react'
 import { StyleSheet , Button, TextInput } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
+import Axios from 'axios'
+import GlobalState from '../user/user'
+import { STATEMENT_OR_BLOCK_KEYS } from '@babel/types';
 
 export default function TabOneScreen({ navigation } : RootTabScreenProps<'Login'>) {
 
-  let [userinfo, setUserInfo] = useState({ 
-    email: "",
-    password: ""
-  })
+
 
   let [email, setEmail] = useState("")
   let [password, setPassword] = useState("")
-  
+  let [userID , setUserID] = useContext(GlobalState)
 
-  function buttonPress( ) {
-    navigation.push("Profile")
+  const backendurl = "http://localhost:3001"
+  
+  function loginButtonPress(){
+    Axios.post(backendurl + '/login', {
+      "email" : email ,
+      "password" : password
+    } ).then( (res) => {
+      console.log(res)
+      console.log(userID , GlobalState)
+      navigation.push('Profile')
+    }).catch( (e) => {
+      console.log(e)
+    })
   }
 
   return (
@@ -41,7 +52,7 @@ export default function TabOneScreen({ navigation } : RootTabScreenProps<'Login'
      
       />
       <Button
-        onPress={buttonPress}
+        onPress={loginButtonPress}
         title="Login!"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"/>

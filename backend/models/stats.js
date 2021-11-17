@@ -1,3 +1,4 @@
+const User =  require('./users')
 const mongoose = require('mongoose');
 
 const Stats = mongoose.model('Stats', new mongoose.Schema({
@@ -14,10 +15,10 @@ const Stats = mongoose.model('Stats', new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
-    },
-
-    datecreated : Date
-}));
+    }, 
+   
+} , { timestamps: true } ));
 
 
 module.exports = Stats
+

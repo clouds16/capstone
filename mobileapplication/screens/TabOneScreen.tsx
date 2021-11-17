@@ -1,5 +1,5 @@
 import * as React  from 'react';
-import {useState} from 'react'
+import {useState , useEffect} from 'react'
 import { StyleSheet , Button, TextInput , ScrollView , SafeAreaView , Image} from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
@@ -7,18 +7,37 @@ import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import {Line } from 'react-chartjs-2'
 import YoutubePlayer from 'react-native-youtube-iframe';
+import Axios from 'axios'
 
 
-
-export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
-
+export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'> ) {
 
 
+  const userID = "616e339efc6733eb328488f7"
+  const backendURL = 'http://localhost:3001'
 
-  
+  const [userInfo , setUserInfo] = useState({
+    fname : "" ,
+    lname: "",
+    userID: ""
+  })
 
-// Later on in your styles..
+    useEffect(()=> {
+      Axios.get(backendURL+ '/profile/' + userID)
+        .then( (res) =>  {
+          console.log(res);
 
+          setUserInfo(prevState => ({
+            ...prevState,
+            ["fname"]: res.data.fname,
+            ["lname"]: res.data.lname,
+            ["userID"] : res.data._id
+        }));
+        console.log(userInfo)
+          
+        })
+          .catch( e=> console.log( " Could not gather info"))
+    }, [] )
 
 
   function buttonPress() {
@@ -51,8 +70,9 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   return (
     <View style={styles.page}>
       <ScrollView > 
+        <Text> Welcome {userInfo.fname } ,{userInfo.lname} </Text>
         <View style= {styles.container}> 
-          <Image source={require('../assets/images/profile.png') } />
+          <Text > Welcome { userInfo.fname} </Text>
         </View>
 
         <Text> Recent Achievements </Text>
