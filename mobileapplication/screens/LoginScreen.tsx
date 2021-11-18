@@ -20,16 +20,24 @@ export default function TabOneScreen({ navigation } : RootTabScreenProps<'Login'
   const backendurl = "http://localhost:3001"
   
   function loginButtonPress(){
-    Axios.post(backendurl + '/login', {
-      "email" : email ,
-      "password" : password
-    } ).then( (res) => {
-      console.log(res)
-      console.log(userID , GlobalState)
-      navigation.push('Profile')
-    }).catch( (e) => {
-      console.log(e)
-    })
+
+    if (email && password) {
+      Axios.post(backendurl + '/login', {
+        "email" : email ,
+        "password" : password
+      } ).then( (res) => {
+        if (res.data._id) {
+          navigation.push('Profile')
+        }  else {
+          console.log("couldnt not sign in")
+        }
+      }).catch( (e) => {
+        console.log(e)
+      })
+    } else {
+      console.log("parameters cannot be empty")
+    }
+    
   }
 
   return (
@@ -81,6 +89,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     color: 'white',
-    backgroundColor: 'white'
+    
   },
 });

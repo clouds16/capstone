@@ -1,19 +1,22 @@
 import * as React  from 'react';
 import {useState} from 'react'
-import { StyleSheet , Button, TextInput , TouchableOpacity ,  } from 'react-native';
+import { StyleSheet , Button, TextInput , TouchableOpacity , Alert , ScrollView   } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import Collapsible from 'react-native-collapsible';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { Title } from 'chart.js';
+import { SubTitle, Title } from 'chart.js';
+import Axios from 'axios'
+import Chart from './components/Chart'
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
 
-  let [isButton1 , setIsButton1] = useState(true)
-  let [isButton2, setIsButton2] =  useState(true)
 
+
+  const userID = "616e339efc6733eb328488f7";
+  const backendURL =  'http://localhost:3001' ;
 
   let [weight, setWeight] = useState("")
   const [open, setOpen] = useState(false);
@@ -22,6 +25,17 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     {label: 'lbs', value: 'lbs'},
     {label: 'kg', value: 'kg'}
   ]);
+
+  function onButtonSubmit() {
+    Axios.post(backendURL + '/profile/' + userID + '/updateweight' , {
+      weight: Number(weight) ,
+      units:  "lbs" , 
+      user: userID ,  
+    }).then(  (res)=> {
+      createTwoButtonAlert()
+    } ).catch( e=> console.log(e))
+  }
+
 
   const [muscleGroup, setMuscleGroup] = useState([
     {label: 'Shoulders', value: 'shoulders'},
@@ -33,54 +47,64 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     {label: 'Legs', value: 'legs'}
   ]);
 
-  function buttonPress() {
-    isButton1 ? setIsButton1(false) : setIsButton1(true)
-  }
-
-  function button2Pressed() {
-    isButton2 ? setIsButton2(false) : setIsButton2(true)
-    
-  }
+  const createTwoButtonAlert = () =>
+    Alert.alert(
+      "Alert Title",
+      "My Alert Msg",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    );
 
   return (
-    <View style={styles.container}>
-      <Button onPress={buttonPress} title="Add New Workout" > </Button>
-      <Collapsible collapsed={isButton1} style={ styles.collapsed}>
-        <Text > Some text that should be Button1</Text>
-        <TextInput style={styles.input}
-          
-          onChangeText={setWeight}
-          value={weight}
-          placeholder="Enter Weight"
-          keyboardType="numeric" />
+    <View style={styles.page}>
+      <ScrollView>
 
-        <DropDownPicker
-          
-          open={open}
-          value={value}
-          items={units}
-          setOpen={setOpen}
-          setValue={setValue}
-          setItems={setUnits}/>
+        <View style= {styles.container}> 
+          <Text>Add New Weight</Text>
+          <TextInput 
+              style={styles.input}
+              onChangeText={setWeight}
+              value={weight}
+              placeholder="Enter Weight"
+              keyboardType="numeric" />
+          <DropDownPicker 
+              style= {styles.dropdown}
+              open={open}
+              value={value}
+              items={units}
+              setOpen={setOpen}
+              setValue={setValue}
+              setItems={setUnits}/>
+          <Button onPress = {onButtonSubmit} title="Add new weight" ></Button>
+        </View>
 
-        <Button onPress={()=> console.log("is pressed")} title="Submit"></Button>
+        <Text> Weight History </Text>
+        <Chart title="Weight vs time HALV"  style={styles.container}  />
+        
 
-      </Collapsible>
 
-      <Button onPress={button2Pressed} title="Add new Weight" > </Button>
-      <Collapsible collapsed={isButton2}>
-        <Text > Section2</Text>
-      </Collapsible>
-    
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  page: {
+
+  },
   container: {
-    // flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    padding: 10 ,
+    margin : 20 , 
+    backgroundColor : 'white' ,
+    color :  'black',
+    height: 200, 
+    borderRadius : 20
   },
   title: {
     fontSize: 20,
@@ -96,7 +120,7 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    color: 'rgba(255,255,255)'
+    color: 'black'
   },
   buttonStyle:{
     alignItems:'center',
@@ -118,5 +142,19 @@ const styles = StyleSheet.create({
   buttondist: {
     margin: 10,
 
+  },
+  dropdown : {
+    backgroundColor : 'white',
+    margin: 5,
+    padding: 3
   }
 });
+
+
+// {/* <Button onPress={buttonPress} title="Add New Workout" > </Button>
+// <Collapsible collapsed={isButton1} style={ styles.collapsed}>
+//   <Text > Some text that should be Button1</Text>
+  
+
+//   <Button onPress={()=> console.log("is pressed")} title="Submit"></Button>
+// </Collapsible> */}

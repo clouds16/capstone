@@ -1,12 +1,16 @@
 import * as React  from 'react';
 import {useState} from 'react'
-import { StyleSheet , Button, TextInput } from 'react-native';
+import { StyleSheet , Button, TextInput  , Alert } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
+import Axios from 'axios'
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'Signup'>) {
+
+  const backendURL = 'http://localhost:3001'
+
 
   let [userinfo, setUserInfo] = useState({ 
     email: "",
@@ -18,7 +22,21 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'Signup'
   let [fname, setFname] = useState("")
   let [lname, setLname] = useState("")
   let [age, setAge] = useState(0)
-  
+
+  function onButtonSubmit() {
+    Axios.post(backendURL + '/signup' , {
+      'fname' : fname,
+      'lname' : lname, 
+      'email' : email,
+      'password' : password
+    }).then( (res) => {
+      console.log(res);
+      navigation.push('Profile')
+    }).catch( e => {
+      console.log("could not create user")
+    })
+  }
+
 
   function buttonPress() {
     navigation.push('Profile')
@@ -58,7 +76,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'Signup'
      
       />
       <Button
-        onPress={buttonPress}
+        onPress={onButtonSubmit}
         title="Sign Up!"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"/>
@@ -86,6 +104,6 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    color: 'rgba(255,255,255)'
+    color: 'white'
   },
 });

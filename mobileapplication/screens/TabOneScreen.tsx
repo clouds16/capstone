@@ -8,6 +8,7 @@ import { RootTabScreenProps } from '../types';
 import {Line } from 'react-chartjs-2'
 import YoutubePlayer from 'react-native-youtube-iframe';
 import Axios from 'axios'
+import Chart from './components/chart'
 
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'> ) {
@@ -21,6 +22,9 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     lname: "",
     userID: ""
   })
+
+
+
 
     useEffect(()=> {
       Axios.get(backendURL+ '/profile/' + userID)
@@ -37,34 +41,17 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
           
         })
           .catch( e=> console.log( " Could not gather info"))
+
+      //Axios.get(BackendURL + '/profile/' + userID + '/' )
+
+
+        
     }, [] )
 
 
   function buttonPress() {
     return "Some Text"
   }
-
-  const data = {
-    labels: ['1', '2', '3', '4', '5', '6'],
-    datasets: [
-      {
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        fill: false,
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgba(255, 99, 132, 0.2)',
-      },
-    ],
-  };
-  
-  const options = {
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    }
-  };
-
 
 
   return (
@@ -76,19 +63,13 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
         </View>
 
         <Text> Recent Achievements </Text>
-
-        <View style={styles.container}>
-          <Line data={data} options={options} />
-        </View>
+        <Chart title="Weight vs time HALV"  style={styles.container}  />
 
         <Text> Upcoming Workouts </Text>
 
         <View style={styles.container}>
         <YoutubePlayer height={300} play={true} videoId={'6_hfafaneag'}/>
         </View>
-
-
-
 
       </ScrollView>
     </View>

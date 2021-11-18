@@ -43,15 +43,23 @@ app.post('/signup', async function(req, res ) {
   });
 
 app.post("/login", async (req, res) => {
-
+	console.log(req.body)
+	
 	try {
 		await User.find({email : req.body.email , password : req.body.password}).then((response) => {			
-			res.send(response[0])	
-		})
-	}catch (e) {
-		console.log("failure")
-		res.send(408)
-	}
+			if (response[0]) {
+				console.log("response is", response);
+				res.send(response[0])
+			}else {
+				res.sendStatus(404)
+			}
+			
+			})
+		}catch (e) {
+			console.log("failure")
+			res.send(408)
+		}
+	
 })
 
 app.get("/users" , (req, res) => {
@@ -62,10 +70,12 @@ app.get("/users" , (req, res) => {
 });
 
 app.post("/profile/:id/updateweight" , async  (req, res) => {
+	console.log(req.body)
 	let weight = new Stats(req.body)
 	
 	try {
 		await weight.save()
+		console.log("success", weight)
 		res.send(weight)
 
 	} catch (e) {
@@ -91,6 +101,7 @@ app.get("/profile/:id", (req, res) => {
 })
 
 app.get("/profile/:id/weighthistory", (req, res) => {	
+	
 	let dates = []
 	let weight =  []
 
@@ -98,6 +109,8 @@ app.get("/profile/:id/weighthistory", (req, res) => {
 		console.log(userstats)
 
 		userstats.forEach( (item) => {
+			const str =  item.createdAt ; 
+			console.log(typeof str )
 			dates.push(item.createdAt);
 			weight.push(item.weight);
 		});
